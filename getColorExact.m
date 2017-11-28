@@ -83,17 +83,34 @@ row_inds=row_inds(1:len);
 %Constructing the affinity matrix.
 A=sparse(row_inds,col_inds,vals,consts_len,imgSize);
 b=zeros(size(A,1),1);
-
 if ~strcmp(params.colorspace,'HSV')
     range = 2:3;
 else
     range = 1:2;
 end
-for t=range
-    curIm=ntscIm(:,:,t);
-    b(lblInds)=curIm(lblInds);
-    new_vals=A\b;   
-    nI(:,:,t)=reshape(new_vals,n,m,1);    
+if ~params.joint
+    
+    for t=range
+        curIm=ntscIm(:,:,t);
+        b(lblInds)=curIm(lblInds);
+        new_vals=A\b;   
+        nI(:,:,t)=reshape(new_vals,n,m,1);    
+    end
+else
+    b_joint = b;
+    for t=range
+        curIm=ntscIm(:,:,t);
+        b(lblInds)=curIm(lblInds);
+        b_joint = b_joint + b;      % b_new = b1 + b2
+            
+    end
+    
+    new_vals=A\b_joint;
+    [x1,x2] = decompose(new_vals);
+%     x1 = (x1 - min(x1))/(max(x1) - min(x1));
+%     x2 = (x2 - min(x2))/(max(x2) - min(x2))
+    nI(:,:,range(1))=reshape(x1,n,m,1);;
+    nI(:,:,range(2)) = reshape(x2, n, m, 1);
 end
 
 % for t=2:3

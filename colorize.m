@@ -1,6 +1,16 @@
 close all
 clear all
 params.colorspace = 'HSV'; % or 'LUV' or 'Lab'
+params.joint = true;
+
+
+if params.joint
+    disp('Jointly optimizing the problem')
+    curr_wd = pwd;
+    cd cvx
+    cvx_setup
+    cd(curr_wd)
+end
 g_name='example.bmp';
 c_name='example_marked.bmp';
 out_name='example_res.bmp';
