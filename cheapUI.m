@@ -1,4 +1,4 @@
-function []=cheapUI(im1);
+function []=cheapUI(im1, params);
 strokeW=3;
 gg=rgb2gray(im1);
 figure(1);
@@ -91,14 +91,14 @@ while(1)
 
     elseif (button==97); %'a'
         disp('applying multigrid');
-        nI=colorizeFun(g3,imMarked);
+        nI=colorizeFun(g3,imMarked, 1, params);
         figure(2);
         imshow(nI);
         figure(1);
         x=[];y=[];
      elseif (button==65); %'A'
         disp('running exact solver');
-        nI=colorizeFun(g3,imMarked,2);
+        nI=colorizeFun(g3,imMarked,2, params);
         figure(2);
         imshow(nI);
         figure(1);

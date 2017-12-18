@@ -97,20 +97,21 @@ if ~params.joint
         nI(:,:,t)=reshape(new_vals,n,m,1);    
     end
 else
-    b_joint = b;
+    b_cum = b;
+    count = 1;
     for t=range
         curIm=ntscIm(:,:,t);
         b(lblInds)=curIm(lblInds);
-        b_joint = b_joint + b;      % b_new = b1 + b2
-            
+        b_cum(:,count) = b;      % b_new = b1 + b2
+        count = count + 1;    
     end
-    
+    b_joint = b_cum(:,1) + b_cum(:,2);
     new_vals=A\b_joint;
-    [x1,x2] = decompose(new_vals);
+    [x1,x2] = decompose(A,b_cum(:,1),b_cum(:,2), new_vals);
 %     x1 = (x1 - min(x1))/(max(x1) - min(x1));
-%     x2 = (x2 - min(x2))/(max(x2) - min(x2))
-    nI(:,:,range(1))=reshape(x1,n,m,1);;
-    nI(:,:,range(2)) = reshape(x2, n, m, 1);
+%     x2 = (x2 - min(x2))/(max(x2) - min(x2));
+    nI(:,:,range(1))=reshape(x2,n,m,1);
+    nI(:,:,range(2)) = reshape(x1, n, m, 1);
 end
 
 % for t=2:3

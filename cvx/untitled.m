@@ -15,8 +15,8 @@ cvx_begin
         -t1 <= 1
         -t2 <= 1
         x + y == p
-        A'*x == b
-        A*y == 0
+%         A*x == b
+%         A*y == 0
 %         sum_square(x) + sum_square(y) - norm(p,2).^2 <= eps
 %        -  sum_square(x) - sum_square(y) + norm(p,2).^2 <= eps
 %         p'*x + p'*y == norm(p,2).^2
