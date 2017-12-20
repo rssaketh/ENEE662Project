@@ -1,4 +1,4 @@
-function [nI,snI]=getColorExact(colorIm,ntscIm, params)
+function [nI,snI,lblInds]=getColorExact(colorIm,ntscIm, params)
 
 n=size(ntscIm,1); m=size(ntscIm,2);
 imgSize=n*m;
